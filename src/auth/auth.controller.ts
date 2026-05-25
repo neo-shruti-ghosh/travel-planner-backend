@@ -16,10 +16,20 @@ export class AuthController {
   constructor(
     private authService: AuthService,
   ) {}
-@Get('me')
-getMe(@Req() req: Request) {
-  return this.authService.getMe(req);
-}
+  @Get('me')
+  getMe(@Req() req: Request) {
+    return this.authService.getMe(req);
+  }
+  @Post('logout')
+  logout(
+    @Res({ passthrough: true })
+    res: Response,
+  ) {
+    res.clearCookie('token');
+    return {
+      message: 'Logout successful',
+    };
+  }
   @Post('login')
   async login(
     @Body() body: LoginDto,
